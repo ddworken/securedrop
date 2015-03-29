@@ -575,11 +575,9 @@ class TestIntegration(unittest.TestCase):
         self.assertIn("Submission deleted.", rv.data)
 
         # Make sure the files were deleted from the filesystem
-        doesExist = []
-        for doc_name in checkbox_values:
-            doesExist.append(os.path.exists(store.path(sid, doc_name)))
         self._wait_for(lambda: self.assertFalse(
-            any(doesExist)))
+            any([os.path.exists(store.path(sid, doc_name)) for doc_name in checkbox_values])))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
